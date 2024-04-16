@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Set the Kubernetes context to 'rancher-demo'
-                    sh 'kubectl get ns'
+                    sh 'export KUBECONFIG=/home/rancher/.kube/kube_config_cluster.yml'
                 }
             }
         }
