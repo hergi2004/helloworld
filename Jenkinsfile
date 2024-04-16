@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Set the Kubernetes context to 'rancher-demo'
-                    sh 'kubectl config use-context rancher-demo-rancher'
+                    sh 'kubectl get ns'
                 }
             }
         }
