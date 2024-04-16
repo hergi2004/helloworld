@@ -23,19 +23,35 @@ pipeline {
                 }
             }
         }
-        stage('Set Kubernetes Context') {
-            steps {
-                script {
-                    // Set the Kubernetes context to 'rancher-demo'
-                    sh 'export KUBECONFIG=/home/rancher/.kube/kube_config_cluster.yml && kubectl get ns'
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                script {
-                    // Deploy using Helm with the specified context
-                    sh 'helm upgrade --install helloworld ./charts/helloworld --namespace helloworld --create-namespace --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
+        // stage('Set Kubernetes Context') {
+        //     steps {
+        //         script {
+        //             // Set the Kubernetes context to 'rancher-demo'
+        //             sh 'export KUBECONFIG=/home/rancher/.kube/kube_config_cluster.yml && kubectl get ns'
+        //         }
+        //     }
+        // }
+        // stage('Deploy') {
+        //     steps {
+        //         script {
+        //             // Deploy using Helm with the specified context
+        //             sh 'helm upgrade --install helloworld ./charts/helloworld --namespace helloworld --create-namespace --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
+        //         }
+        //     }
+        // }
+
+        stages {
+            stage('Deploy to Kubernetes') {
+                steps {
+                    script {
+                        // Load the kubeconfig from Jenkins credentials
+                        withCredentials([file(credentialsId: 'kubeconfig_id', variable: 'KUBECONFIG')]) {
+                            // Now run kubectl commands, Helm commands, or other Kubernetes interactions
+                            sh 'kubectl get ns'
+                            // Example Helm command
+                            sh 'helm upgrade --install helloworld ./charts/helloworld --namespace helloworld --create-namespace --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
+                        }
+                    }
                 }
             }
         }
