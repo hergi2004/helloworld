@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     // Deploy using Helm with the specified context
-                    sh 'helm upgrade --install helloworld ./charts/helloworld --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
+                    sh 'helm upgrade --install helloworld ./charts/helloworld --namespace helloworld --create-namespace --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
                 }
             }
         }
