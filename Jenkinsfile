@@ -40,17 +40,15 @@ pipeline {
         //     }
         // }
 
-        stages {
-            stage('Deploy to Kubernetes') {
-                steps {
-                    script {
-                        // Load the kubeconfig from Jenkins credentials
-                        withCredentials([file(credentialsId: 'kubeconfig_id', variable: 'KUBECONFIG')]) {
-                            // Now run kubectl commands, Helm commands, or other Kubernetes interactions
-                            sh 'kubectl get ns'
-                            // Example Helm command
-                            sh 'helm upgrade --install helloworld ./charts/helloworld --namespace helloworld --create-namespace --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
-                        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Load the kubeconfig from Jenkins credentials
+                    withCredentials([file(credentialsId: 'kubeconfig_id', variable: 'KUBECONFIG')]) {
+                        // Now run kubectl commands, Helm commands, or other Kubernetes interactions
+                        sh 'kubectl get ns'
+                        // Example Helm command
+                        sh 'helm upgrade --install helloworld ./charts/helloworld --namespace helloworld --create-namespace --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
                     }
                 }
             }
