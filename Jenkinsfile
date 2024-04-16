@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = 'helloworld:1.0.0'
-        REGISTRY = 'hergi2004/helloworld'
+        REGISTRY = 'docker.io/hergi2004/helloworld'
     }
     stages {
         stage('Build') {
