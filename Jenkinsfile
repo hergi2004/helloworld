@@ -23,10 +23,19 @@ pipeline {
                 }
             }
         }
+        stage('Set Kubernetes Context') {
+            steps {
+                script {
+                    // Set the Kubernetes context to 'rancher-demo'
+                    sh 'kubectl config use-context rancher-demo'
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 script {
-                    sh 'helm upgrade --install helloworld ./charts/helloworld --kube-context rancher-demo --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
+                    // Deploy using Helm with the specified context
+                    sh 'helm upgrade --install helloworld ./charts/helloworld --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
                 }
             }
         }
