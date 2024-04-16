@@ -12,15 +12,15 @@ pipeline {
                 }
             }
         }
-        stage('Push') {
-            steps {
-                script {
-                    docker.withRegistry('https://'+env.REGISTRY, 'docker-registry-credentials') {
-                        docker.image(env.DOCKER_IMAGE).push()
-                    }
-                }
-            }
-        }
+        // stage('Push') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('https://'+env.REGISTRY, 'docker-registry-credentials') {
+        //                 docker.image(env.DOCKER_IMAGE).push()
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Push image') {
             steps {
