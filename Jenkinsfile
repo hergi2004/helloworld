@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'helloworld:1.0.0'
+        DOCKER_IMAGE = 'hergi2004/helloworld:1.0.0'
         REGISTRY = 'docker.io/hergi2004/helloworld'
     }
     stages {
