@@ -12,15 +12,27 @@ pipeline {
                 }
             }
         }
-        stage('Push') {
-            steps {
-                script {
-                    docker.withRegistry('https://'+env.REGISTRY, 'docker-registry-credentials') {
-                        docker.image(env.DOCKER_IMAGE).push()
-                    }
+        // stage('Push') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('https://'+env.REGISTRY, 'docker-registry-credentials') {
+        //                 docker.image(env.DOCKER_IMAGE).push()
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Push image') {
+            withCredentials([usernamePassword( credentialsId: 'docker-registry-credentials', usernameVariable: 'hergi2004', passwordVariable: 'ttherve1987')]) {
+                def registry_url = "docker.io/hergi2004/helloworld"
+                bat "docker login -u $USER -p $PASSWORD ${registry_url}"
+                docker.withRegistry("http://${registry_url}", "docker-registry-credentials") {
+                    // Push your image now
+                    bat "docker push hergi2004/helloworld:1.0.0"
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
