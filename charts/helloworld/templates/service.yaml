@@ -6,4 +6,6 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 8081  # Updated target port to match the application.properties
+      targetPort: {{ .Values.service.targetPort }}  # This should match the container's exposed port
+  selector:
+    app: {{ .Release.Name }}  # Make sure this selector matches the labels on the pods created by the Deployment
