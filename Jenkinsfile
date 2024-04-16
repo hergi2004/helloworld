@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'helm upgrade --install helloworld ./charts/helloworld --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
+                    sh 'helm upgrade --install helloworld ./charts/helloworld --kube-context rancher-demo --set image.repository=hergi2004/helloworld,image.tag=1.0.0'
                 }
             }
         }
