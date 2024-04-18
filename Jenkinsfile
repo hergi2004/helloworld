@@ -10,7 +10,14 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    VERSION = sh(script: 'echo $((`echo $VERSION | cut -d "." -f 3` + 1))', returnStdout: true).trim()
+                    def lastSegment = sh(script: 'echo $VERSION | awk -F "." \'{print $3}\'', returnStdout: true).trim()
+
+                    // Increment the last segment by 1
+                    def nextVersion = lastSegment.toInteger() + 1
+
+                    // Concatenate the first two segments with the incremented last segment
+                    VERSION = "${VERSION.substring(0, VERSION.lastIndexOf('.') + 1)}${nextVersion}"
+                    
                     def customImage = docker.build("${REGISTRY}/${env.DOCKER_IMAGE}:${VERSION}")
                 }
             }
@@ -26,6 +33,7 @@ pipeline {
                 }
             }
         }
+
         // stage('Set Kubernetes Context') {
         //     steps {
         //         script {
