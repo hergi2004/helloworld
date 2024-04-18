@@ -1,11 +1,22 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'hergi2004/helloworld:v1.0.0'
+        DOCKER_IMAGE = 'hergi2004/helloworld'
         REGISTRY = 'docker.io'
         VERSION = '1.0.0'
     }
     stages {
+        stage('Validate Image Name') {
+            steps {
+                script {
+                    // Validate Docker image name
+                    def validImageName = sh(script: "echo ${REGISTRY}/${DOCKER_IMAGE}:${VERSION} | docker validate --name -", returnStatus: true) == 0
+                    if (!validImageName) {
+                        error("Invalid Docker image name")
+                    }
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
