@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'hergi2004/helloworld:latest'
+        DOCKER_IMAGE = 'hergi2004/helloworld:v1.0.0'
         REGISTRY = 'docker.io'
         VERSION = '1.0.0'
     }
@@ -18,7 +18,7 @@ pipeline {
 
                     // Increment the last segment by 1
                     def nextVersion = lastSegment.toInteger() + 1
-                    
+
                     // Concatenate the first two segments with the incremented last segment
                     VERSION = VERSION.replaceAll(/\d+$/, nextVersion.toString())
                     
