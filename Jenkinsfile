@@ -12,11 +12,15 @@ pipeline {
                     // Build the Docker image
                     def lastSegment = sh(script: 'echo $VERSION | awk -F "." \'{print $3}\'', returnStdout: true).trim()
 
+                    if(lastSegment.isEmpty()) {
+                        lastSegment = "0"
+                    }
+
                     // Increment the last segment by 1
                     def nextVersion = lastSegment.toInteger() + 1
-
+                    
                     // Concatenate the first two segments with the incremented last segment
-                    VERSION = "${VERSION.substring(0, VERSION.lastIndexOf('.') + 1)}${nextVersion}"
+                    VERSION = VERSION.replaceAll(/\d+$/, nextVersion.toString())
                     
                     def customImage = docker.build("${REGISTRY}/${env.DOCKER_IMAGE}:${VERSION}")
                 }
