@@ -4,34 +4,23 @@ pipeline {
         DOCKER_IMAGE = 'hergi2004/helloworld'
         REGISTRY = 'docker.io'
         VERSION = '1.0.0'
+        VERSION_FORMAT='yyyy.MM.ddHH'
     }
     stages {
-        stage('Validate Image Name') {
-            steps {
-                script {
-                    // Validate Docker image name
-                    def validImageName = sh(script: "echo ${REGISTRY}/${DOCKER_IMAGE}:${VERSION} | docker validate --name -", returnStatus: true) == 0
-                    if (!validImageName) {
-                        error("Invalid Docker image name")
-                    }
-                }
-            }
-        }
         stage('Build') {
             steps {
                 script {
-                    // Build the Docker image
-                    def lastSegment = sh(script: 'echo $VERSION | awk -F "." \'{print $3}\'', returnStdout: true).trim()
-
-                    if(lastSegment.isEmpty()) {
-                        lastSegment = "0"
+                    // Generate version based on current date and time
+                    def currentDate = new Date().format(VERSION_DATE_FORMAT)
+                    if(currentDate.isEmpty()) {
+                        currentDate = "0.0.0"
                     }
 
-                    // Increment the last segment by 1
-                    def nextVersion = lastSegment.toInteger() + 1
-
+                    echo "Current date: ${currentDate}"
+                    echo "Build number: ${BUILD_NUMBER}"
+                    
                     // Concatenate the first two segments with the incremented last segment
-                    VERSION = VERSION.replaceAll(/\d+$/, nextVersion.toString())
+                    VERSION = currentDate
                     
                     def customImage = docker.build("${REGISTRY}/${env.DOCKER_IMAGE}:${VERSION}")
                 }
