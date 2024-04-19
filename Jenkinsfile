@@ -11,14 +11,14 @@ pipeline {
             steps {
                 script {
                     // Generate version based on current date and time
-                    def currentDate = new Date().format(VERSION_DATE_FORMAT)
+                    def currentDate = new Date().format(env.VERSION_FORMAT)
                     if(currentDate.isEmpty()) {
                         currentDate = "0.0.0"
                     }
 
                     echo "Current date: ${currentDate}"
                     echo "Build number: ${BUILD_NUMBER}"
-                    
+
                     // Concatenate the first two segments with the incremented last segment
                     VERSION = currentDate
                     
