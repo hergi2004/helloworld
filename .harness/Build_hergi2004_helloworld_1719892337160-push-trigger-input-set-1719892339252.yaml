@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_hergi2004_helloworld_1719892337160-push-trigger-input-set
+  identifier: Build_hergi2004_helloworld_1719892337160pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_hergi2004_helloworld_1719892337160
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
